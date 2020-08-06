@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block titulo %}Contratos{% endblock titulo %}
+
+{% block body %}
+
+<form method="POST">
+    {% csrf_token %} 
+    <div class="dashboard-wrapper">
+        <div class="dashboard-ecommerce">
+            <div class="container-fluid dashboard-content ">
+                <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Gestionar Contratos</h2>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="/Home" class="breadcrumb-link">Home</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Gestionar Contratos</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Nuevo +
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nuevo Contrato</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            {{contrato_form.as_p}}
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" name="btn-agregar" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!-- /Modal -->
+                <!-- striped table -->
+                <!-- ============================================================== -->
+                <div>
+                    <div class="card">
+                        <h5 class="card-header"> Lista de Contratos</h5>
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Fecha Desde</th>
+                                                <th scope="col">Fecha Hasta</th>
+                                                <th scope="col">N° Disponibilidad</th>
+                                                <th scope="col">Resumen</th>
+                                                <th scope="col">Archivo</th>
+                                                <th scope="col">Fecha Carga</th>
+                                                <th scope="col">Anexo</th>
+                                                <th scope="col">Solicitante</th>
+                                                <th scope="col">Contrato</th>
+                                                <th scope="col">Objeto</th>
+                                                <th scope="col">Persona</th>
+                                                <th scope="col">Accion</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {%for contrato in contratos %}
+                                                <tr>
+                                                    <td>{{contrato.fecha_d|date:"d / m / Y" }} </td>
+                                                    <td>{{contrato.fecha_h|date:"d / m / Y" }}</td>
+                                                    <td>{{contrato.nro_dis}}</td>
+                                                    <td>{{contrato.resumen}}</td>
+                                                    <td>{{contrato.nombre_archivo}}</td>
+                                                    <td>{{contrato.fecha_c|date:"d / m / Y" }}</td>
+                                                    <td>{{contrato.anexo}}</td>
+                                                    <td>{{contrato.solicitante}}</td>
+                                                    <td>{{contrato.contrato}}</td>
+                                                    <td>{{contrato.objeto}}</td>
+                                                    <td>{{contrato.persona}}</td>
+                                                    <td>
+                                                        <a class="btn btn-success" href="../editarContrato/{{contrato.id}}"><i class="fas fa-edit"></i></a>
+                                                        <a href="#myModal2"class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target=".bs-example-modal-lg2{{contrato.id}}"><i class="fas fa-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <!-- inicio del modal-->
+                                                <div class="btn-group">
+                                                    <!--<center>
+                                                    <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target=".bs-example-modal-lg2{{contrato.id}}">
+                                                        <div id="icon8">
+                                                        <i class="fas fa-trash"></i>
+                                                    </div>
+                                                    </button>
+                                                    </center>-->
+                                                    
+                                                    <div class="modal fade bs-example-modal-lg2{{contrato.id}}" id="myModal2{{contrato.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" id="myModalLabel{{contrato.id}}">Confirmacion de Eliminacion</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <h4>Esta seguro de Eliminar el contrato {{contrato.contrato}}?</h4>
+                                                                    <h5>Esta accion no tiene vuelta atras, una vez eliminado no podra recuperarse</h5>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                                                    <a href="/contratos/eliminarContrato/{{contrato.id}}  " class="btn btn-primary" >Confirmar Eliminacion</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <!--Fin del modal-->
+                                            {%endfor%}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end striped table -->
+                        <!-- ============================================================== -->
+                         
+            </div>
+        </div> 
+    </div>
+</form>
+{% endblock body %}
+<script>
+    $('.datepicker').datepicker();
+</script>

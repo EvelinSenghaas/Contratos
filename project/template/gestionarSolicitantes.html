@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block titulo %}Solicitantes{% endblock titulo %}
+
+{% block body %}
+
+<form method="POST">
+    {% csrf_token %} 
+    <div class="dashboard-wrapper">
+        <div class="dashboard-ecommerce">
+            <div class="container-fluid dashboard-content ">
+                <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Gestionar Solicitantes</h2>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="/Home" class="breadcrumb-link">Home</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Gestionar Solicitantes</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    +
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nuevo solicitante</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            {{solicitante_form.as_p}}
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <hr>
+                <!-- striped table -->
+                <!-- ============================================================== -->
+                <div style="text-align:center;" class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        <h5 class="card-header"> Lista de Solicitantes</h5>
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">solicitante</th>
+                                                <th scope="col">Accion</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {%for solicitante in solicitantes%}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{solicitante.solicitante}}</td>
+                                                    <td>
+                                                        <a class="btn btn-success" href="../editarSolicitante/{{solicitante.id}}"><i class="fas fa-edit"></i></a>
+                                                        <a href="#myModal2"class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target=".bs-example-modal-lg2{{solicitante.id}}"><i class="fas fa-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <!-- inicio del modal-->
+                                                <div class="btn-group">
+                                                    <!--<center>
+                                                    <button type="button" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target=".bs-example-modal-lg2{{solicitante.id}}">
+                                                        <div id="icon8">
+                                                        <i class="fas fa-trash"></i>
+                                                    </div>
+                                                    </button>
+                                                    </center>-->
+                                                    
+                                                    <div class="modal fade bs-example-modal-lg2{{solicitante.id}}" id="myModal2{{solicitante.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" id="myModalLabel{{solicitante.id}}">Confirmacion de Eliminacion</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <h4>Esta seguro de Eliminar el solicitante {{solicitante.solicitante}}?</h4>
+                                                                    <h5>Esta accion no tiene vuelta atras, una vez eliminado no podra recuperarse</h5>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                                                    <a href="/contratos/eliminarSolicitante/{{solicitante.id}}  " class="btn btn-primary" >Confirmar Eliminacion</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <!--Fin del modal-->
+                                            {%endfor%}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end striped table -->
+                        <!-- ============================================================== -->
+            </div>
+        </div> 
+    </div>
+</form>
+{% endblock body %}
