@@ -3,7 +3,8 @@ from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
 #In delete i don't have validations
-#@login_required
+
+@login_required
 def Home(request):
     #Tengo que ver de recuperar el ultimo registro de asistencia por reunion, si pasaron mas de 7 dias 
     #y no hubo un registro, ponerle falta al encargado
